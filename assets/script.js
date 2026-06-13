@@ -43,7 +43,7 @@ if (!('IntersectionObserver' in window)) {
 
 const typewriterEl = document.querySelector('.typewriter-text');
 const nameTypewriterEl = document.getElementById('nameTypewriter');
-const typewriterPhrases = ['Full-stack Developer.', 'UI/UX Enthusiast.', 'Web Performance Lover.'];
+const typewriterPhrases = ['Web Developer', 'Mobile Developer', 'Cybersecurity Enthusiast'];
 const namePhrase = 'Salsabila Alya Saputri';
 let typewriterIndex = 0;
 let typewriterChar = 0;
