@@ -100,16 +100,12 @@ window.addEventListener('load', () => {
   setTimeout(runNameTypewriter, 600);
   setTimeout(runTypewriter, 900);
 
+
   const splash = document.getElementById('splash');
   const splashSkipBtn = document.getElementById('splashSkip');
   const splashEnterBtn = document.getElementById('splashEnter');
-  const splashDontShow = document.getElementById('splashDontShow');
 
-  // If user chose to never show, hide immediately
-  if (splash && localStorage.getItem('portfolio-hide-splash') === '1') {
-    splash.classList.add('hidden');
-    splash.setAttribute('aria-hidden', 'true');
-  } else if (splash) {
+  if (splash) {
     // show entrance animation class
     requestAnimationFrame(() => splash.classList.add('showing'));
     // auto-hide after a brief delay
@@ -122,30 +118,101 @@ window.addEventListener('load', () => {
       splash.setAttribute('aria-hidden', 'true');
     }
 
-    // Add blink class to gift icon for visual emphasis
+    // Add blink and move classes to gift icon for visual emphasis
     const giftMain = document.querySelector('.splash-gift-main');
-    if (giftMain) giftMain.classList.add('blink');
+    if (giftMain) giftMain.classList.add('blink', 'move');
 
     // Enter button: hide immediately
     if (splashEnterBtn) {
       splashEnterBtn.addEventListener('click', () => {
         clearTimeout(hideTimer);
-        hideSplash();
+        // launch confetti then hide splash
+        launchConfetti();
+        // small delay so confetti is visible
+        setTimeout(() => hideSplash(), 600);
       });
     }
 
-    // Skip button: hide immediately and persist preference if requested
+    // Skip button: hide immediately
     if (splashSkipBtn) {
       splashSkipBtn.addEventListener('click', () => {
         clearTimeout(hideTimer);
         hideSplash();
-        if (splashDontShow && splashDontShow.checked) {
-          localStorage.setItem('portfolio-hide-splash', '1');
-        }
       });
     }
   }
 });
+
+// Simple confetti implementation (lightweight, no external libs)
+function launchConfetti() {
+  const duration = 1200;
+  const colors = ['#cfa0ff', '#9b70ff', '#7b5bff', '#d9b8ff', '#e6d6ff'];
+  const end = Date.now() + duration;
+
+  const canvas = document.createElement('canvas');
+  canvas.style.position = 'fixed';
+  canvas.style.top = '0';
+  canvas.style.left = '0';
+  canvas.style.width = '100%';
+  canvas.style.height = '100%';
+  canvas.style.pointerEvents = 'none';
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  document.body.appendChild(canvas);
+  const ctx = canvas.getContext('2d');
+
+  const total = 80;
+  const particles = [];
+  for (let i = 0; i < total; i++) {
+    particles.push({
+      x: canvas.width / 2 + (Math.random() - 0.5) * 160,
+      y: canvas.height / 2 + (Math.random() - 0.5) * 40,
+      vx: (Math.random() - 0.5) * 10,
+      vy: Math.random() * -9 - 2,
+      size: Math.random() * 8 + 6,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      rot: Math.random() * Math.PI,
+      gravity: 0.28 + Math.random() * 0.18
+    });
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach((p) => {
+      p.vy += p.gravity;
+      p.x += p.vx;
+      p.y += p.vy;
+      p.rot += 0.1;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
+      ctx.restore();
+    });
+  }
+
+  (function frame() {
+    draw();
+    if (Date.now() < end) {
+      requestAnimationFrame(frame);
+    } else {
+      // fade out then remove
+      let alpha = 1;
+      const fade = setInterval(() => {
+        alpha -= 0.08;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.globalAlpha = Math.max(alpha, 0);
+        draw();
+        ctx.globalAlpha = 1;
+        if (alpha <= 0) {
+          clearInterval(fade);
+          if (canvas && canvas.parentNode) canvas.parentNode.removeChild(canvas);
+        }
+      }, 60);
+    }
+  })();
+}
 
 window.addEventListener('scroll', () => {
   backToTop.classList.toggle('show', window.scrollY > 500);
