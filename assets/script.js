@@ -99,6 +99,14 @@ window.addEventListener('load', () => {
   setTimeout(hideLoader, 200);
   setTimeout(runNameTypewriter, 600);
   setTimeout(runTypewriter, 900);
+  // Hide splash overlay after a short delay so users see the intro
+  const splash = document.getElementById('splash');
+  if (splash) {
+    setTimeout(() => {
+      splash.classList.add('hidden');
+      splash.setAttribute('aria-hidden', 'true');
+    }, 1400);
+  }
 });
 
 window.addEventListener('scroll', () => {
