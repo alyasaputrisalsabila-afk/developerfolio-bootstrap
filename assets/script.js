@@ -99,13 +99,36 @@ window.addEventListener('load', () => {
   setTimeout(hideLoader, 200);
   setTimeout(runNameTypewriter, 600);
   setTimeout(runTypewriter, 900);
-  // Hide splash overlay after a short delay so users see the intro
+
   const splash = document.getElementById('splash');
-  if (splash) {
-    setTimeout(() => {
+  const splashSkipBtn = document.getElementById('splashSkip');
+  const splashDontShow = document.getElementById('splashDontShow');
+
+  // If user chose to never show, hide immediately
+  if (splash && localStorage.getItem('portfolio-hide-splash') === '1') {
+    splash.classList.add('hidden');
+    splash.setAttribute('aria-hidden', 'true');
+  } else if (splash) {
+    // show entrance animation class
+    requestAnimationFrame(() => splash.classList.add('showing'));
+    // auto-hide after a brief delay
+    const autoHideDelay = 2000;
+    const hideTimer = setTimeout(() => {
       splash.classList.add('hidden');
       splash.setAttribute('aria-hidden', 'true');
-    }, 1400);
+    }, autoHideDelay);
+
+    // Skip button: hide immediately and persist preference if requested
+    if (splashSkipBtn) {
+      splashSkipBtn.addEventListener('click', () => {
+        clearTimeout(hideTimer);
+        splash.classList.add('hidden');
+        splash.setAttribute('aria-hidden', 'true');
+        if (splashDontShow && splashDontShow.checked) {
+          localStorage.setItem('portfolio-hide-splash', '1');
+        }
+      });
+    }
   }
 });
 
