@@ -69,6 +69,40 @@ body {
 .splash-icons { display: flex; gap: 18px; justify-content: center; margin-bottom: 12px; }
 .splash-icons i { font-size: 1.6rem; padding: 10px; border-radius: 999px; background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.95); box-shadow: 0 8px 30px rgba(124,72,255,0.14); }
 
+@keyframes blinkGlow {
+  0%, 100% { opacity: 1; filter: drop-shadow(0 0 12px rgba(124,72,255,0.22)); transform: translateY(0) scale(1); }
+  50% { opacity: 0.36; filter: none; transform: translateY(-2px) scale(0.98); }
+}
+
+@keyframes iconPulse {
+  0% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-6px) scale(1.06); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+.icon-blink { animation: blinkGlow 1.6s ease-in-out infinite; }
+.icon-pulse { animation: iconPulse 2.2s ease-in-out infinite; }
+
+.splash-gift { font-size: 1.8rem; color: #ffd27a; background: linear-gradient(135deg, rgba(255,210,122,0.12), rgba(255,255,255,0.02)); box-shadow: 0 12px 40px rgba(255, 183, 65, 0.12); }
+
+@keyframes shimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.splash-highlight {
+  background: linear-gradient(90deg,#8f6bff,#6b52d8,#ff7ec6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  background-size: 200% 200%;
+  animation: shimmer 3.6s linear infinite;
+}
+
+.splash-sub { margin-top: 8px; opacity: 0.86; font-weight: 600; }
+.splash-sub { animation: blinkGlow 2.4s ease-in-out infinite; }
+
 .splash-controls { margin-top: 14px; display: flex; gap: 12px; justify-content: center; align-items: center; }
 .splash-controls .btn { padding: 6px 12px; }
 .splash-remember { color: rgba(255,255,255,0.9); font-weight: 600; font-size: 0.95rem; display: inline-flex; gap: 8px; align-items: center; }
