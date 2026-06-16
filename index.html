@@ -12,19 +12,24 @@
 <body data-bs-spy="scroll" data-bs-target="#mainNav" data-bs-offset="90" tabindex="0">
   <a class="skip-link" href="#main">Skip to main content</a>
   <div id="splash" class="splash" role="dialog" aria-hidden="false" aria-label="Welcome splash">
-    <div class="splash-content">
-      <div class="splash-icons" aria-hidden="true">
-        <i class="bi bi-code-slash icon-pulse"></i>
-        <i class="bi bi-person-circle icon-blink"></i>
-        <i class="bi bi-github icon-pulse"></i>
-        <i class="bi bi-gift splash-gift icon-blink" aria-hidden="true"></i>
+    <div class="splash-panel">
+      <div class="splash-left">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="splash-illustration">
+          <i class="bi bi-gift splash-gift-main" aria-hidden="true"></i>
+        </div>
       </div>
-      <img src="assets/salsa.jpeg" alt="Salsabila Alya Saputri" class="splash-avatar" />
-      <h1 class="splash-title">Welcome To My<br><span class="splash-highlight">Portfolio Website</span></h1>
-      <div class="splash-sub">@salsabilalys</div>
-      <div class="splash-controls">
-        <button id="splashSkip" class="btn btn-outline-light btn-sm">Skip</button>
-        <label class="splash-remember"><input id="splashDontShow" type="checkbox"> Don't show again</label>
+      <div class="splash-right">
+        <h2 class="splash-hi">Hi, I'm <strong>Salsabila</strong></h2>
+        <p class="splash-line">I build meaningful apps — web, mobile, and IoT experiments.</p>
+        <div class="splash-actions">
+          <button id="splashEnter" class="btn btn-primary btn-lg">Enter Portfolio</button>
+          <button id="splashSkip" class="btn btn-outline-light btn-sm">Skip</button>
+        </div>
+        <div class="splash-footer">
+          <label class="splash-remember"><input id="splashDontShow" type="checkbox"> Don't show again</label>
+        </div>
       </div>
     </div>
   </div>

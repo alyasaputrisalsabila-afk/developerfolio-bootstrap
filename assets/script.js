@@ -102,6 +102,7 @@ window.addEventListener('load', () => {
 
   const splash = document.getElementById('splash');
   const splashSkipBtn = document.getElementById('splashSkip');
+  const splashEnterBtn = document.getElementById('splashEnter');
   const splashDontShow = document.getElementById('splashDontShow');
 
   // If user chose to never show, hide immediately
@@ -112,18 +113,32 @@ window.addEventListener('load', () => {
     // show entrance animation class
     requestAnimationFrame(() => splash.classList.add('showing'));
     // auto-hide after a brief delay
-    const autoHideDelay = 2000;
-    const hideTimer = setTimeout(() => {
+    const autoHideDelay = 2200;
+    let hideTimer = setTimeout(() => hideSplash(), autoHideDelay);
+
+    function hideSplash() {
+      if (!splash) return;
       splash.classList.add('hidden');
       splash.setAttribute('aria-hidden', 'true');
-    }, autoHideDelay);
+    }
+
+    // Add blink class to gift icon for visual emphasis
+    const giftMain = document.querySelector('.splash-gift-main');
+    if (giftMain) giftMain.classList.add('blink');
+
+    // Enter button: hide immediately
+    if (splashEnterBtn) {
+      splashEnterBtn.addEventListener('click', () => {
+        clearTimeout(hideTimer);
+        hideSplash();
+      });
+    }
 
     // Skip button: hide immediately and persist preference if requested
     if (splashSkipBtn) {
       splashSkipBtn.addEventListener('click', () => {
         clearTimeout(hideTimer);
-        splash.classList.add('hidden');
-        splash.setAttribute('aria-hidden', 'true');
+        hideSplash();
         if (splashDontShow && splashDontShow.checked) {
           localStorage.setItem('portfolio-hide-splash', '1');
         }
